@@ -1,0 +1,36 @@
+.wrap {
+    width: 80%;
+    margin: 10rem auto;
+}
+h1 { text-align: center; font-size: 3rem; margin: 10% 0 }
+.search-form input[type="text"]{
+    display: block;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 2rem;
+    width: 70%;
+    height: 60px;
+    border: 1px solid #bdbdbd;
+    background-color: #e0e0e0;
+    float: left;
+}
+.search-form input[type="button"] {
+    display: block;
+    width: 30%;
+    height: 60px;
+    box-sizing: border-box;
+    float: left;
+}
+.search-result {
+    height: 400px;
+}
+form {
+    position: fixed;
+    bottom: 0;
+    display: block;
+    height: 100px;
+    width: 100%;
+    left: 0;
+    padding-bottom: 20px;
+    background: #616161;
+}
