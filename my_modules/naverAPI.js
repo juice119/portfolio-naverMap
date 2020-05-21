@@ -13,7 +13,7 @@ let naverModule = [
     // [1] driving
     {
         uri: "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving",
-        qs: {start: "시작 위도 경도", end: "끝나는 위도  경도"}
+        qs: {start: "시작 위도 경도", goal: "끝나는 위도  경도"}
     },
 ];
 
@@ -50,7 +50,8 @@ module.exports =  {
             let data = JSON.parse(body);
             console.log("gecode Sucess to [" + qs + "]");
             console.log(data);
-            res(data.addresses);
+            if(mode == 0) { res(data.addresses); }
+            else if(mode == 1) {res(data.route.traoptimal); }
         }).catch(err => {
             console.log(err.options)
         });

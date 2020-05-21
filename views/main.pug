@@ -2,95 +2,34 @@ doctype html
 html
   head
     title 길찾기
+    meta(name='viewport' content='width=device-width, height=device-height,user-scalable=no')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
     link(rel='stylesheet', href='/stylesheets/main.css')
   body
-    div.wrap
-        h1 길찾기 서비스
+    #map
+    .search
+        h1 길찾기
         #search
+            form#driving(action='/post/driving' method='post' enctype='multipart/form-data')
+                .start
+                    input#start(type="text" name="start" readonly)
+                    input#start-x(type="hidden" name="start_x" )
+                    input#start-y(type="hidden" name="start_y" )
+                .goal
+                    input#goal(type="text" name="goal" readonly)
+                    input#goal-x(type="hidden" name="goal_x" )
+                    input#goal-y(type="hidden" name="goal_y" )
+                .submit
+                    input(type="submit", value="길찾기")
             .search-form 
                 input.text-search(type="text" placeholder="주소를 입력해주세요")
-                input.btn-search(type="button", value="검색")
+                input.btn-search(type="button", value="검색")       
             .search-result
+            
 
-        form(action='/post' method='post' enctype='multipart/form-data')
-            label#start-label(for="start" ) 출발지점 
-            input#start(type="text" name="start" readonly)
-            input#start-x(type="hidden" name="start-x" )
-            input#start-y(type="hidden" name="start-y" )
-            label#end-label(for="end" ) 도착지점
-            input#end(type="text" name="end" readonly)
-            input#end-x(type="hidden" name="end-x" )
-            input#end-y(type="hidden" name="end-y" )
-            input(type="submit", value="길찾기")
     
-    script.
-     //검색 버튼 클릭시
-     document.querySelector('.btn-search').addEventListener('click', () => {
-        var searchData = document.querySelector('.text-search').value;
-        let formData = {search: searchData};
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-        if (xhr.status === 200) {
-            let resData = JSON.parse(xhr.responseText);
-            console.log("검색성공");
-            console.log(resData);
-            search_reload(resData);
-        } else {
-            console.error(xhr.responseText);
-        }
-        };
-        xhr.open('POST', '/post/search');
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.send(JSON.stringify(formData));
-         
-     });
-     function setStartEnd(sel, address1, address2, x, y){
-        let input_txt = document.querySelector(`#${sel}`);
-        let input_x = document.querySelector(`#${sel}-x`);
-        let input_y = document.querySelector(`#${sel}-y`);
-        
-        input_x.value = x;
-        input_y.value = y;
-        input_txt.value = address1;
-     }
-     function search_reload(data) {
-        var tbody = document.querySelector('.search-result');
-        tbody.innerHTML = '';
-        data.map(function(e) {
-            var row = document.createElement('tr');
-            row.addEventListener('click', function() {
-                //- getComment(user.id);
-            });
-            var td = document.createElement('td');
-            td.textContent = e.roadAddress;
-            row.appendChild(td);
-            td = document.createElement('td');
-            td.textContent = e.jibunAddress;
-            row.appendChild(td);
-            td = document.createElement('td');
-            td.setAttribute('class', 'pos x');
-            td.textContent = e.x;
-            row.appendChild(td);
-            td = document.createElement('td');
-            td.setAttribute('class', 'pos y');
-            td.textContent = e.y
-            row.appendChild(td);
-            var btn = document.createElement("input");
-            btn.addEventListener('click', function() {
-                setStartEnd("start", e.roadAddress, e.jibunAddress, e.x, e.y);
-            });
-            btn.type = "button";
-            btn.className = "btn-start";
-            btn.value = "출발지점"
-            row.appendChild(btn);
-            var btn = document.createElement("input");
-            btn.addEventListener('click', function() {
-                setStartEnd("end", e.roadAddress, e.jibunAddress, e.x, e.y);
-            });
-            btn.type = "button";
-            btn.className = "btn-end";
-            btn.value = "도착지점"
-            row.appendChild(btn);
-            tbody.appendChild(row); 
-        });
-     };
+    script(src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=j4pi7zx94n")
+    script(src="/javascripts/staticMap.js")
+    script(src="/javascripts/buttonAction.js")
+     
+     

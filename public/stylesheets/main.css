@@ -1,36 +1,76 @@
+* {padding: 0; margin: 0; box-sizing: border-box;}
 .wrap {
-    width: 80%;
-    margin: 10rem auto;
-}
-h1 { text-align: center; font-size: 3rem; margin: 10% 0 }
-.search-form input[type="text"]{
-    display: block;
     box-sizing: border-box;
-    padding: 10px;
-    font-size: 2rem;
-    width: 70%;
-    height: 60px;
-    border: 1px solid #bdbdbd;
-    background-color: #e0e0e0;
-    float: left;
+    width: 20vw;
+    height: 100vh;
+    margin: 0;
 }
-.search-form input[type="button"] {
-    display: block;
-    width: 30%;
-    height: 60px;
-    box-sizing: border-box;
-    float: left;
-}
-.search-result {
-    height: 400px;
-}
-form {
+h1 { text-align: center; font-size: 3rem; }
+.search {
     position: fixed;
-    bottom: 0;
-    display: block;
-    height: 100px;
-    width: 100%;
     left: 0;
-    padding-bottom: 20px;
-    background: #616161;
+    top: 0;
+    background-color: #fff;
+    width: 25vw;
+    max-width: 320px;
+    height: 100vh;
+}
+#driving {
+    padding: 20px 10px 80px;
+}
+#driving input[type=text] {
+    width: 100%;
+    height: 3rem;
+}
+#driving input[type=submit] {
+    border-color: #0475f4;
+    background-color: #0475f4;
+    color: #fff;
+    float: right;
+    margin-top: 10px;
+    padding: 8px 12px;
+    font-weight: 500;
+    font-size: 14px;
+}
+.search-form {
+    width: 100%;
+}
+
+.search-form input[type=text] {
+    width: 100%;
+    height: 3rem;
+    font-size: 1.5rem;
+    padding: 10px;
+}
+td.pos {display: none;}
+#map {width: 100vw; height: 100vh;}
+.search-result {
+
+    padding: 20px 8px;
+}
+tr {
+    display: block;
+    padding: 10px;
+    position: relative;
+    border: 1px solid #666;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+td {
+    display: block;
+    width: 100%;
+}
+.btn-start {
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}
+.btn-goal {
+    position: absolute;
+    right: 5px;
+    top: 33px;
+}
+.btn-search {
+    width: 100%;
+    height: 3vh;
 }

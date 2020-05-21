@@ -1,7 +1,10 @@
-doctype html
-html
-  head
-    title= "메인"
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+extends main
+
+block content
+  .search
+    h1 길찾기 서비스
+    #search
+        .search-form 
+            input.text-search(type="text" placeholder="주소를 입력해주세요")
+            input.btn-search(type="button", value="검색")
+        .search-result
