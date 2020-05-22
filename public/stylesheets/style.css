@@ -1,8 +1,194 @@
+* {padding: 0; margin: 0; box-sizing: border-box; }
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+}
+/* IR 효과 */
+.ir_pm {display:block; overflow:hidden; font-size:0; line-height:0; text-indent:-9999px;} /* 의미있는 이미지의 대체 텍스트를 제공하는 경우(Phark Method) */
+.ir_wa {display:block; overflow:hidden; position:relative; z-index:-1; width:100%; height: 100%;} /* 의미있는 이미지의 대체 텍스트로 이미지가 없어도 대체 텍스트를 보여주고자 할 때(WA IR) */
+.ir_so {overflow: hidden; position:absolute; width:0; height:0; line-height:0; text-indent:-9999px;} /* 대체 텍스트가 아닌 접근성을 위한 숨김 텍스트를 제공할 때 */
+.icon {
+    display: block;
+}
+.icon-mapBox {
+    background-image: url(../images/icon-mapbox.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 35px;
+    height: 35px;
+}
+.icon-search-black {
+    background-image: url(../images/icon-search-black.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 18px;
+    height: 18px;
+}
+.icon-search-white {
+    background-image: url(../images/icon-search-white.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 18px;
+    height: 18px;
 }
 
-a {
-  color: #00B7FF;
+input[type=text] {
+    width: 100%;
+    height: 2.4rem;
+    border: none;
+    padding: 1rem;
+    font-size: 1,2rem;
+    border-radius: 8px;
 }
+em {
+    font-style: normal;
+}
+
+#map {
+    width: 100vw;
+    height: 100vh;
+}
+.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20vw;
+    min-width: 390px;
+    height: 100vh;
+    background-color: #a1887f;
+}
+.menu i.icon-mapBox { position: absolute; top: 25px; left: 20px;}
+.menu .tit {color: #fff; padding-left: 40px; font-size: 1.8rem; margin-bottom: 25px;}
+.search {
+    padding: 20px;
+    background-color: #ffab91;
+    width: 100%;
+    height: 170px;
+}
+.search-form {position: relative;}
+.search-form input[type=button] {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 14px;
+    top: 6px;
+    font-size: 0;
+    background-color: transparent;
+    border: none;
+}
+
+/* .driving */
+.driving {padding: 20px; background-color: #ff8a65; height: 170px;}
+#driving label{
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+    color: #fff;
+    font-size: 1.2rem;
+}
+#driving input[type=text] {
+    border: 1px solid #e2e2e2;
+    border-radius: 0 0 4px 4px;
+    cursor: default;
+    display: inline-block;
+    width: 78%;
+}
+#driving input[type=text]#start {
+    border-radius: 4px 4px 0 0 ;
+}
+#driving input[type=submit] {
+    display: block;
+    width: 100%;
+    height: 3rem;
+    margin-top: 16px;
+    border: 1px solid #ff9e80;
+    background: #ff5722;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* result */
+.result {
+    overflow-y: auto;
+    width: 100%;
+    height: 64%;
+    background-color:#ffccbc;
+}
+.result .block {
+    width: 100%;
+    height: 64%;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+.info {
+    width: 100%;
+    height: 90px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+    color: #666;
+}
+.result > div { display: none;}
+.result > div.on {
+    display: block;
+}
+
+/* search_result */
+.search_info p {
+    text-align: right;
+}
+.search_info em {
+    color: #333;
+    margin-right: 6px;
+}
+#search_result {
+    background-color: #fff;
+}
+#search_result .block{
+    position: relative;
+    width: 100%;
+    height: 90px;
+    padding: 20px;
+    background-color: #e0e0e0;
+}
+#search_result .block h1 {
+    position: absolute;
+    top: 6px;
+    left: 14px;
+} 
+#search_result .block h2 {
+    font-size: 0.8rem;
+    padding-left: 30px;
+}
+#search_result .block div {
+    position: absolute;
+    right: 12px;
+    bottom: 4px;
+}
+#search_result .block div input[type=button] {
+    background-color: #fff;
+    padding: 4px;
+    border: none;
+    box-shadow: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+#search_result .block div > input[type=button]:first-child {margin-right: 2px;}
+#search_result .block div > input[type=button]:first-child:hover {
+    background-color: #e64a19;
+    color: #fff;
+}
+#search_result .block div > input[type=button]:last-child:hover {
+    background-color: #2962ff;
+    color: #fff;
+}
+/* driving_result */
+.driving_info .time, .driving_info .distance {display: inline-block; color: #000;}
+.driving_info .distance {color: #777;}
+
+#driving_result .block {height: auto; min-height: 90px; cursor: pointer; position: relative; padding: 30px 0 10px 10px;}
+#driving_result .block:hover { background-color: #ffab91;}
+#driving_result h1 {display: block; position: absolute; top: 0; left: 4px; font-size: 1.6rem; color: #666; }
+#driving_result p {display: block; font-size: 1rem; width: 80%; border-bottom: 1px solid #e2e2e2; padding-bottom: 6px; padding-left: 20px;}
+#driving_result em {display: block; padding-left: 20px; }

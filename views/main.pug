@@ -1,35 +1,55 @@
 doctype html
-html
+html(lang='en')
   head
-    title 길찾기
-    meta(name='viewport' content='width=device-width, height=device-height,user-scalable=no')
-    meta(http-equiv='X-UA-Compatible' content='IE=edge')
-    link(rel='stylesheet', href='/stylesheets/main.css')
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, height=device-height, initial-scale=1.0')
+    title goboX For MAP
+    link(rel='stylesheet', href='/stylesheets/style.css')
   body
     #map
-    .search
-        h1 길찾기
-        #search
-            form#driving(action='/post/driving' method='post' enctype='multipart/form-data')
-                .start
-                    input#start(type="text" name="start" readonly)
-                    input#start-x(type="hidden" name="start_x" )
-                    input#start-y(type="hidden" name="start_y" )
-                .goal
-                    input#goal(type="text" name="goal" readonly)
-                    input#goal-x(type="hidden" name="goal_x" )
-                    input#goal-y(type="hidden" name="goal_y" )
-                .submit
-                    input(type="submit", value="길찾기")
-            .search-form 
-                input.text-search(type="text" placeholder="주소를 입력해주세요")
-                input.btn-search(type="button", value="검색")       
-            .search-result
-            
+    .menu
+      .search
+        i.icon.icon-mapBox.ir_pm goBox아이콘
+        h1.tit
+          | goboX 
+          strong MAP
+        .search-form
+          input.text-search(type='text', placeholder='주소를 입력해주세요')
+          input.icon-search-black.btn-search(type='button', value='검색')
+      // /.search
+      .driving
+        form#driving(action='/post/driving' method='post' enctype='multipart/form-data')
+          .start
+            label(for='start') 출발지
+            input#start(type='text', name='start', placeholder='검색후 출발지 버튼을 클릭해주세요', readonly='')
+            input#start-x.x(type='hidden', name='start_x')
+            input#start-y.y(type='hidden', name='start_y')
+          .end
+            label(for='start') 도착지
+            input#goal(type='text', name='goal', placeholder='검색후 도착지 버튼을 클릭해주세요', readonly='')
+            input#goal-x.x(type='hidden', name='goal_x')
+            input#goal-y.y(type='hidden', name='goal_y')
+          input(type='submit', value='경로 탐색')
+      // ./driving
+      .result
+        .search_result
+          .search_info.info
+            h3
+              em.search_info_hash 오산역
+              | 으로 검색하셨습니다.
+            p
+              | 검색결과 
+              em.search_info_cot 0
+              | 개의 주소가 검색되었습니다.
+          #search_result
 
-    
+        .driving_result
+          .driving_info.info
+            h2.time 30분
+            h3.distance 19km
+          #driving_result
+          
+      // ./result
+    script(src='./javascripts/script.js')
     script(src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=j4pi7zx94n")
     script(src="/javascripts/staticMap.js")
-    script(src="/javascripts/buttonAction.js")
-     
-     

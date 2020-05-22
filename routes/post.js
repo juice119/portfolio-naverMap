@@ -7,8 +7,10 @@ router.post('/search', function(req, res, next) {
   console.log(req.body.search);
   var qs = naverAPI.getQuery(0);
   qs.query = req.body.search;
+  console.log(qs);
   naverAPI.getAPI(0, qs).then(data => {
     console.log("======data==========");
+    console.log(data);
     data.forEach(e => {
       console.log(e.roadAddress);
       console.log(e.jibunAddress);
@@ -36,5 +38,3 @@ router.post('/driving', function(req, res, next) {
 });
 
 module.exports = router;
-
-
