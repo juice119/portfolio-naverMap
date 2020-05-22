@@ -44,8 +44,10 @@ em {
 }
 
 #map {
-    width: 100vw;
+    width: 80vw;
     height: 100vh;
+    position: fixed !important;
+    right: 0 !important;
 }
 .menu {
     position: fixed;
@@ -62,7 +64,7 @@ em {
     padding: 20px;
     background-color: #ffab91;
     width: 100%;
-    height: 170px;
+    height: 140px;
 }
 .search-form {position: relative;}
 .search-form input[type=button] {
@@ -77,8 +79,8 @@ em {
 }
 
 /* .driving */
-.driving {padding: 20px; background-color: #ff8a65; height: 170px;}
-#driving label{
+.driving {padding: 20px; background-color: #ff8a65; height: 210px;}
+.start label, .end label{
     display: inline-block;
     width: 20%;
     text-align: center;
@@ -99,7 +101,7 @@ em {
     display: block;
     width: 100%;
     height: 3rem;
-    margin-top: 16px;
+    margin-top: 10px;
     border: 1px solid #ff9e80;
     background: #ff5722;
     border-radius: 6px;
@@ -107,6 +109,35 @@ em {
     font-size: 1.5rem;
     font-weight: bold;
 }
+/* option */
+.option {
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.option input {
+    display: none;
+}
+.option label {
+    display: block;
+    float: left;
+    text-align: center;
+    width: 25%;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #ffa726;
+    padding: 10px;
+    color: #fff;
+}
+.option > label:nth-child(2) {
+    border-radius: 6px 0 0 6px;
+} 
+.option > label:last-child {
+    border-radius: 0 6px 6px 0;
+} 
+.option input:checked + label {
+    background-color: #ff6f00;
+}
+
 
 /* result */
 .result {
@@ -192,3 +223,4 @@ em {
 #driving_result h1 {display: block; position: absolute; top: 0; left: 4px; font-size: 1.6rem; color: #666; }
 #driving_result p {display: block; font-size: 1rem; width: 80%; border-bottom: 1px solid #e2e2e2; padding-bottom: 6px; padding-left: 20px;}
 #driving_result em {display: block; padding-left: 20px; }
+ 

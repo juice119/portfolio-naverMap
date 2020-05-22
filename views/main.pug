@@ -19,6 +19,15 @@ html(lang='en')
       // /.search
       .driving
         form#driving(action='/post/driving' method='post' enctype='multipart/form-data')
+          .option
+            input#option1(type="radio", name="option", value="trafast"  checked="checked")
+            label(for="option1") 빠른길
+            input#option2(type="radio", name="option", value="tracomfort")
+            label(for="option2") 편할길
+            input#option3(type="radio", name="option", value="traoptimal")
+            label(for="option3") 최적
+            input#option4(type="radio", name="option", value="traavoidtoll")
+            label(for="option4") 무료우선
           .start
             label(for='start') 출발지
             input#start(type='text', name='start', placeholder='검색후 출발지 버튼을 클릭해주세요', readonly='')

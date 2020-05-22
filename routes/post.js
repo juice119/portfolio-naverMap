@@ -29,6 +29,7 @@ router.post('/driving', function(req, res, next) {
   var qs = naverAPI.getQuery(mode);
   qs.start = req.body.start;
   qs.goal = req.body.goal;
+  qs.option = req.body.option;
   console.log(qs);
   
   // naverAPI에서 drving 가져오기

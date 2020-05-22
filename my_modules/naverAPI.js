@@ -13,7 +13,7 @@ let naverModule = [
     // [1] driving
     {
         uri: "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving",
-        qs: {start: "시작 위도 경도", goal: "끝나는 위도  경도"}
+        qs: {start: "시작 위도 경도", goal: "끝나는 위도  경도", option: "탐색 옵션"}
     },
 ];
 

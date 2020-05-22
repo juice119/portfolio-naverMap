@@ -1,14 +1,19 @@
 let drivingSave;
+let testData;
 //길찾기 버튼 클릭시
 document.getElementById('driving').addEventListener('submit', function (e) {
+    console.log("================경로 버튼 클릭 이벤트");
     e.preventDefault();
     let form = e.target;
+    console.log(form);
+    testData = form;
     if(form.start.value !== "" && form.goal.value !== "") {
         let formData = {
             start_name: form.start.value,
             start: form.start_x.value + "," + form.start_y.value,
             goal_name: form.goal.value,
             goal: form.goal_x.value + "," + form.goal_y.value,  
+            option: form.option.value,
         };
         var xhr = new XMLHttpRequest();
         xhr.onload = function() {
@@ -36,23 +41,38 @@ document.getElementById('driving').addEventListener('submit', function (e) {
     }
  });
  //검색 버튼 클릭시
- document.querySelector('.btn-search').addEventListener('click', () => {
-    var searchData = document.querySelector('.text-search').value;
-    let formData = {search: searchData};
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            let resData = JSON.parse(xhr.responseText);
-            console.log("검색성공");
-            console.log(resData);
-            searchAddBlock(resData);
-        } 
-    };
-    xhr.open('POST', '/post/search');
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.send(JSON.stringify(formData));
- });
+ document.querySelector('.btn-search').addEventListener('click', () => { getSearch(); });
+ document.querySelector('.text-search').addEventListener("keypress" ,(e) => { if(e.keyCode == 13) {getSearch()} });
 
+ function getSearch() {
+    var searchData = document.querySelector('.text-search').value;
+    if(searchData !== "") {
+        document.querySelector(".search_info_hash").innerHTML = searchData;
+        let formData = {search: searchData};
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                let resData = JSON.parse(xhr.responseText);
+                console.log("===================getSearch");
+                console.log(resData);
+                searchAndMarker(resData)
+                searchAddBlock(resData);
+            } 
+        };
+        xhr.open('POST', '/post/search');
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.send(JSON.stringify(formData));
+    }else {
+        alert("주소를 입력하세요");
+    }
+ }
+//주소 검색후 마크 표시
+function searchAndMarker(data) {
+    let markerPs = new Array();
+    data.forEach((e) => { markerPs.push(new naver.maps.Point(e.x, e.y));});
+    console.log(markerPs);
+    addMarker(markerPs);
+}
 //길찾기 후 받은 데이터로 UI 추가 시키기
 function drivingAddBlock(drivingData) {
     console.log("==========drivingAddBlock start");
@@ -116,6 +136,16 @@ function drivingBlockGen(data) {
         p.textContent = e.pointIndex;
         p.style = "display: none;"
         block.appendChild(p);
+        block.addEventListener("click", function(e) {
+            console.log(this);
+            let index = this.querySelector(".guide_index").textContent;
+            let xyData = drivingSave[0].path[parseInt(index)];
+            console.log(drivingSave[0].path[parseInt(index)]);
+            let x = xyData[0];
+            let y = xyData[1];
+            console.log(x, y);
+            mapCenter(x, y);
+        });
         target.appendChild(block);
     });
 
@@ -158,9 +188,18 @@ function searchAddBlock(data) {
         p.style = "display:none;";
         block.appendChild(p);
         block.appendChild(btnGroupGen());
+        block.addEventListener("click", function(e)  {console.log("block 클릭"); blockClickEvent(this)})
         body.appendChild(block);
     });
 }
+function blockClickEvent(my) {
+    console.log(my);
+    let x = my.querySelector(".x").textContent;
+    let y = my.querySelector(".y").textContent;
+    console.log(x, y);
+    mapCenter(x, y);
+}
+
 //버튼 그룹 생성
 function btnGroupGen() {
     //버튼 그룹
