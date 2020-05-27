@@ -50,21 +50,24 @@ em {
     right: 0 !important;
 }
 .menu {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
     width: 20vw;
     min-width: 390px;
     height: 100vh;
-    background-color: #a1887f;
+    background-color: #ff8a65;
 }
-.menu i.icon-mapBox { position: absolute; top: 25px; left: 20px;}
-.menu .tit {color: #fff; padding-left: 40px; font-size: 1.8rem; margin-bottom: 25px;}
-.search {
-    padding: 20px;
-    background-color: #ffab91;
+.menu i.icon-mapBox { position: absolute;     top: 18px;
+    left: 10px;
+}
+.menu .tit {color: #fff; padding-left: 40px; font-size: 1.8rem; }
+.logo {
+    padding: 10px;
+    background-color: transparent;
     width: 100%;
-    height: 140px;
 }
 .search-form {position: relative;}
 .search-form input[type=button] {
@@ -79,8 +82,13 @@ em {
 }
 
 /* .driving */
-.driving {padding: 20px; background-color: #ff8a65; height: 210px;}
-.start label, .end label{
+.driving {    
+    padding: 10px 15px 5px;
+    background-color: #ff8a65;
+    overflow-y: auto;
+    min-height: 220px;
+}
+.start label, .end label, .waypoints label{
     display: inline-block;
     width: 20%;
     text-align: center;
@@ -99,20 +107,22 @@ em {
 }
 #driving input[type=submit] {
     display: block;
-    width: 100%;
+    width: 30%;
     height: 3rem;
     margin-top: 10px;
     border: 1px solid #ff9e80;
     background: #ff5722;
     border-radius: 6px;
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
+    float: right;
 }
+
 /* option */
 .option {
     overflow: hidden;
-    margin-bottom: 10px;
+    margin: 10px 0;
 }
 .option input {
     display: none;
@@ -137,13 +147,47 @@ em {
 .option input:checked + label {
     background-color: #ff6f00;
 }
+/* waypoints */
+.waypoints > div {position: relative;}
+.submit { overflow: hidden;}
+#driving .btn_waypoints {
+    display: block;
+    margin-top: 10px;
+    border: 1px solid #ff9e80;
+    background: #ff5722;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1.0rem;
+    font-weight: 700;
+    background-color: #f9a825 ;
+    padding: 6px;
+    color: #eee;
+    float: left;
+}
+#driving .waypoints input[type=text] {
+    border-radius: 0;
+}
+.waypoints label {
+    font-size: 1.0rem;
+}
+#btn_remove {
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    right: 14px;
+    top: 10px;
+    background-color: #fff;
+    border: 1px solid #666;
+    border-radius: 5px;
+}
 
 
 /* result */
 .result {
     overflow-y: auto;
     width: 100%;
-    height: 64%;
+    height: 100%;
     background-color:#ffccbc;
 }
 .result .block {

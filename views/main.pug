@@ -9,17 +9,31 @@ html(lang='en')
     #map
     a.btn_menubar="<"
     .menu
-      .search
+      .logo
         i.icon.icon-mapBox.ir_pm goBox아이콘
         h1.tit
           | goboX 
           strong MAP
-        .search-form
-          input.text-search(type='text', placeholder='주소를 입력해주세요')
-          input.icon-search-black.btn-search(type='button', value='검색')
       // /.search
       .driving
-        form#driving(action='/post/driving' method='post' enctype='multipart/form-data')
+        form#driving(action='/post/driving' method='post' enctype='multipart/form-data' )
+          .start
+            label(for='start') 출발지
+            input#start(type='text', name='start', placeholder='출발지를 검색후 선택해주세요')
+            input#start-x.x(type='hidden', name='start_x')
+            input#start-y.y(type='hidden', name='start_y')
+          .waypoints
+            //- .way1
+            //-   label(for='way') 경유지1
+            //-   input#way1(type='text', name='way', placeholder='경유지를 검색후 선택해주세요')
+            //-   input#btn_remove(type='button' name="removeWay" value="X")
+            //-   input#way1-x.x(type='hidden', name='way_x')
+            //-   input#way1-y.y(type='hidden', name='way_y')
+          .end
+            label(for='start') 도착지
+            input#goal(type='text', name='goal', placeholder='도착지를 검색후 선택해주세요')
+            input#goal-x.x(type='hidden', name='goal_x')
+            input#goal-y.y(type='hidden', name='goal_y')
           .option
             input#option1(type="radio", name="option", value="trafast"  checked="checked")
             label(for="option1") 빠른길
@@ -29,17 +43,9 @@ html(lang='en')
             label(for="option3") 최적
             input#option4(type="radio", name="option", value="traavoidtoll")
             label(for="option4") 무료우선
-          .start
-            label(for='start') 출발지
-            input#start(type='text', name='start', placeholder='검색후 출발지 버튼을 클릭해주세요', readonly='')
-            input#start-x.x(type='hidden', name='start_x')
-            input#start-y.y(type='hidden', name='start_y')
-          .end
-            label(for='start') 도착지
-            input#goal(type='text', name='goal', placeholder='검색후 도착지 버튼을 클릭해주세요', readonly='')
-            input#goal-x.x(type='hidden', name='goal_x')
-            input#goal-y.y(type='hidden', name='goal_y')
-          input(type='submit', value='경로 탐색')
+          .submit
+            input.btn_waypoints(type='button', value='경유지 추가')
+            input(type='submit', value='경로 탐색')
       // ./driving
       .result
         .search_result

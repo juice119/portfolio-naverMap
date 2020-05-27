@@ -1,11 +1,31 @@
 let drivingSave;
-let testData;
-//길찾기 버튼 클릭시
+let searchTarget;
+document.getElementById('driving').addEventListener('submit', function (e) {});
+drivingInputReset();
+
+// 길찾기 버튼 클릭시
 document.getElementById('driving').addEventListener('submit', function (e) {
     console.log("================경로 버튼 클릭 이벤트");
     e.preventDefault();
+    var wayPoints = document.querySelector(".waypoints");
+    let wayNum = wayPoints.childNodes.length + 1;
+
     let form = e.target;
-    console.log(form);
+    let wayData = "";
+
+    for(let i = 1; i < wayNum; i++) {
+        let way = "way" + i;
+        let data = "";
+        console.log("way" + i);
+        data = form[way + "_x"].value + "," + form[way + "_y"].value;
+        console.log(data);
+        if(i != 1 && i != wayNum) {
+            wayData += ":";
+        }
+        wayData += data;
+    }
+    console.log(wayData);
+
     testData = form;
     if(form.start.value !== "" && form.goal.value !== "") {
         let formData = {
@@ -14,7 +34,9 @@ document.getElementById('driving').addEventListener('submit', function (e) {
             goal_name: form.goal.value,
             goal: form.goal_x.value + "," + form.goal_y.value,  
             option: form.option.value,
+            waypoints: wayData,
         };
+        console.log(formData);
         var xhr = new XMLHttpRequest();
         xhr.onload = function() {
             if(xhr.status === 200) {
@@ -40,12 +62,25 @@ document.getElementById('driving').addEventListener('submit', function (e) {
         alert("도착 지점을 정해주세요");
     }
  });
- //검색 버튼 클릭시
- document.querySelector('.btn-search').addEventListener('click', () => { getSearch(); });
- document.querySelector('.text-search').addEventListener("keypress" ,(e) => { if(e.keyCode == 13) {getSearch()} });
+ //driving 초기화
+function drivingInputReset() {
+    //검색 엔터 클릭시
+    document.querySelectorAll('#driving input[type=text]').forEach((e) => {
+        console.log("add", e);
+        e.addEventListener("keypress" ,(e) => { 
+            if(e.keyCode == 13) {
+                e.preventDefault();
+                console.log(e.target.value);
+                getSearch(e.target);
+                
+            }
+        });
+    });
+ }
 
- function getSearch() {
-    var searchData = document.querySelector('.text-search').value;
+ //서버에 post로 데이터 요청후 받기
+ function getSearch(target) {
+    var searchData = target.value;
     if(searchData !== "") {
         document.querySelector(".search_info_hash").innerHTML = searchData;
         let formData = {search: searchData};
@@ -56,7 +91,7 @@ document.getElementById('driving').addEventListener('submit', function (e) {
                 console.log("===================getSearch");
                 console.log(resData);
                 searchAndMarker(resData)
-                searchAddBlock(resData);
+                searchAddBlock(resData, target);
             } 
         };
         xhr.open('POST', '/post/search');
@@ -66,6 +101,62 @@ document.getElementById('driving').addEventListener('submit', function (e) {
         alert("주소를 입력하세요");
     }
  }
+//검색 데이터로 UI 추가 시키기
+function searchAddBlock(data, target) {
+    document.querySelector(".search_result").classList.add('on');
+    document.querySelector(".driving_result").classList.remove('on');
+
+    document.querySelector(".search_info_cot").innerHTML = data.length;
+    var body = document.getElementById("search_result");
+    // 안에 있는 요소 전부 제거 하기
+    while(body.hasChildNodes()) {
+        body.removeChild(body.firstChild);
+    }
+
+    data.forEach((e, index) => {
+        var block = document.createElement('div');
+        block.className= "block";
+        var h1 = document.createElement('h1');
+        h1.textContent = index + 1;
+        block.appendChild(h1);
+        var h2 = document.createElement('h2');
+        h2.className = "roadAdd";
+        h2.textContent = e.roadAddress;
+        block.appendChild(h2);
+        var h2 = document.createElement('h2');
+        h2.className = "jibunAdd";
+        h2.textContent =  e.jibunAddress;
+        block.appendChild(h2);
+        var p = document.createElement('h2');
+        p.className = "x";
+        p.textContent = e.x;
+        p.style = "display:none;";
+        block.appendChild(p);
+        var p = document.createElement('h2');
+        p.className = "y";
+        p.textContent = e.y;
+        p.style = "display:none;";
+        block.appendChild(p);
+        block.addEventListener("click", function(e)  {console.log("block 클릭"); blockClickEvent(this, target)})
+        body.appendChild(block);
+    });
+}
+function blockClickEvent(my, target) {
+    let targetPar = target.parentNode;
+    console.log(targetPar, target);
+    console.log(my);
+    let roadAdd = my.querySelector(".roadAdd").textContent;
+    let x = my.querySelector(".x").textContent;
+    let y = my.querySelector(".y").textContent;
+    console.log(x, y);
+    mapCenter(x, y);
+
+    targetPar.querySelector("input[type=text]").value = roadAdd;
+    targetPar.querySelector(".x").value = x;
+    targetPar.querySelector(".y").value = y;
+}
+
+
 //주소 검색후 마크 표시
 function searchAndMarker(data) {
     let markerPs = new Array();
@@ -151,93 +242,81 @@ function drivingBlockGen(data) {
 
 }
 
-//검색 데이터로 UI 추가 시키기
-function searchAddBlock(data) {
-    document.querySelector(".search_result").classList.add('on');
-    document.querySelector(".driving_result").classList.remove('on');
-
-    document.querySelector(".search_info_cot").innerHTML = data.length;
-    var body = document.getElementById("search_result");
-    // 안에 있는 요소 전부 제거 하기
-    while(body.hasChildNodes()) {
-        body.removeChild(body.firstChild);
-    }
-
-    data.forEach((e, index) => {
-        var block = document.createElement('div');
-        block.className= "block";
-        var h1 = document.createElement('h1');
-        h1.textContent = index + 1;
-        block.appendChild(h1);
-        var h2 = document.createElement('h2');
-        h2.className = "roadAdd";
-        h2.textContent = e.roadAddress;
-        block.appendChild(h2);
-        var h2 = document.createElement('h2');
-        h2.className = "jibunAdd";
-        h2.textContent =  e.jibunAddress;
-        block.appendChild(h2);
-        var p = document.createElement('h2');
-        p.className = "x";
-        p.textContent = e.x;
-        p.style = "display:none;";
-        block.appendChild(p);
-        var p = document.createElement('h2');
-        p.className = "y";
-        p.textContent = e.y;
-        p.style = "display:none;";
-        block.appendChild(p);
-        block.appendChild(btnGroupGen());
-        block.addEventListener("click", function(e)  {console.log("block 클릭"); blockClickEvent(this)})
-        body.appendChild(block);
-    });
-}
-function blockClickEvent(my) {
-    console.log(my);
-    let x = my.querySelector(".x").textContent;
-    let y = my.querySelector(".y").textContent;
-    console.log(x, y);
-    mapCenter(x, y);
-}
-
-//버튼 그룹 생성
-function btnGroupGen() {
-    //버튼 그룹
-    var btnGroup = document.createElement('div');
-    var input = document.createElement('input');
-    input.type = "button";
-    input.value ="출발지";
-    input.className = "start_btn";
-    btnGroup.appendChild(input);
-    input.addEventListener("click", function(e) {btnGroupFunc("start", this);});
-    var input = document.createElement('input');
-    input.type = "button";
-    input.value ="도착지";
-    input.className = "goal_btn";
-    input.addEventListener("click", function(e) {btnGroupFunc("goal", this);});
-    btnGroup.appendChild(input);
-
-    return btnGroup;
-}
-function btnGroupFunc(select, me) {
-    console.log(select, me);
-    me = me.parentNode.parentNode;
-    var destination;
-
-    if(select === "start") {
-        destination = document.querySelector(".start");
-    }else {
-        destination = document.querySelector(".end");
-    }
-
-    let x = me.querySelector(".x").textContent;
-    let y = me.querySelector(".y").textContent;
-    let text = me.querySelector(".roadAdd").textContent;
+//경유지 추가 버튼
+document.querySelector(".btn_waypoints").addEventListener("click", (e) => {
+    let maxWayPoints = 10;
+    var driving = document.querySelector(".driving");
     
-    destination.querySelector("input").value = text;
-    destination.querySelector(".x").value = x;
-    destination.querySelector(".y").value = y;
+    if(driving.offsetHeight < 300) {
+        
+    }
+    var wayPoints = document.querySelector(".waypoints");
+    let wayNum = wayPoints.childNodes.length + 1;
+    if(wayNum >= maxWayPoints) {
+        alert("최대 경유지는 " + maxWayPoints +"개입니다.");
+    } else {
+        waypointsAddBlock(wayNum, wayPoints);
+        drivingInputReset();
+        if(wayNum < 3 ) {
+            var wayHeight = document.querySelector(".waypoints > div:last-child").offsetHeight;   
+            driving.style.minHeight  = (driving.offsetHeight + wayHeight) + "px";
+            console.log(driving.offsetHeight);
+        }
+    } 
+    
+});
+//waypoints에 div 블럭 생성기
+function waypointsAddBlock(num, target) {
+    let wayNum = "way" + num
+    var block = document.createElement('div');
+    block.className= wayNum;
+
+    var label = document.createElement('label');
+    label.setAttribute = ("for", wayNum);
+    label.textContent = "경유지" + num;
+    block.appendChild(label);
+    
+    var input = new Array(4);
+    for(let x = 0; x < input.length; x++) {
+        input[x] = document.createElement('input');
+    }
+    console.log("data", input);
+    
+    input[0].id  = wayNum;
+    input[0].setAttribute("type", "text");
+    input[0].setAttribute("name", wayNum);
+    input[0].setAttribute("placeholder", "경유지를 검색후 선택해주세요");
+
+    input[1].id = "btn_remove";
+    input[1].setAttribute("name", "삭제버튼");
+    input[1].setAttribute("type", "button");
+    input[1].setAttribute("value", "X");
+    input[1].addEventListener("click", (e) => {e.target.parentNode.remove();});
+
+    input[2].id = wayNum + "-x";
+    input[2].className = "x";
+    input[2].setAttribute("name", wayNum + "_x");
+    input[2].setAttribute("type", "hidden");
+
+    input[3].id = wayNum + "-y";
+    input[3].className = "y";
+    input[3].setAttribute("name", wayNum + "_y");
+    input[3].setAttribute("type", "hidden");
+
+    input.forEach((e) => {block.appendChild(e);});
+    
+    target.appendChild(block);
 }
+//x버튼 클릭시 경유지 삭제
+document.querySelectorAll('#btn_remove').forEach((e) => {
+    e.addEventListener('click', (e) => {console.log(e.target.parentNode); });
+});
+
+document.getElementById('driving').addEventListener('submit', function (e) {
+    console.log("submit");
+});
+
+
 
 
 
@@ -267,5 +346,4 @@ function btnMenubar() {
         btn.style="left: 0px;";
         map.style= "width: 100vw;";
     }
-
 }

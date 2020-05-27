@@ -19,23 +19,30 @@ router.post('/search', function(req, res, next) {
     res.status(200).json(data);
   });
 });
+
 /* driving */
 router.post('/driving', function(req, res, next) {
   //1 driving
   console.log("driving");
-
-  let mode = 1;
+  console.log("req.body");
   console.log(req.body);
+
+  let mode = req.body.waypoints === "" ? 1 : 2;
+
   var qs = naverAPI.getQuery(mode);
+
   qs.start = req.body.start;
   qs.goal = req.body.goal;
   qs.option = req.body.option;
+  qs.waypoints = req.body.waypoints;
+
   console.log(qs);
-  
+
   // naverAPI에서 drving 가져오기
   naverAPI.getAPI(mode, qs).then(data => {
+    console.log("naverAPI sucess");
     res.status(200).json(data);
-  });
+  }).catch (err => {console.log(err);});
 });
 
 module.exports = router;
