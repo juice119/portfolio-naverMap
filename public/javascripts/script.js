@@ -238,3 +238,34 @@ function btnGroupFunc(select, me) {
     destination.querySelector(".x").value = x;
     destination.querySelector(".y").value = y;
 }
+
+
+
+document.querySelector(".btn_menubar").addEventListener("click", (e) => {btnMenubar()});
+function btnMenubar() {
+    console.log("=============btnMenubar");
+    
+    let btn = document.querySelector(".btn_menubar");
+    let menu = document.querySelector(".menu");
+    let map = document.querySelector("#map");
+
+    console.log("btn:", btn.innerHTML);
+    console.log(btn.innerHTML);
+
+    //메뉴바 열기
+    if(btn.innerHTML !== "&lt;") {
+        console.log("메뉴바 열기");
+        btn.innerHTML = "<";
+        menu.style ="display: block";
+        btn.style="";
+        map.style= "";
+    //메뉴바 닫기
+    } else {
+        console.log("메뉴바 닫기");
+        btn.innerHTML = ">";
+        menu.style ="display: none;";
+        btn.style="left: 0px;";
+        map.style= "width: 100vw;";
+    }
+
+}

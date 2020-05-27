@@ -224,3 +224,17 @@ em {
 #driving_result p {display: block; font-size: 1rem; width: 80%; border-bottom: 1px solid #e2e2e2; padding-bottom: 6px; padding-left: 20px;}
 #driving_result em {display: block; padding-left: 20px; }
  
+.btn_menubar {
+    position: fixed;
+    left: 390px;
+    top: 45vh;
+    width: 20px;
+    height: 40px;
+    background: #ff8a65;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 0 5px 4px 0;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
