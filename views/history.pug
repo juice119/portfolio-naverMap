@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="/stylesheets/history.css")
+        title 검색기록
+        
+    body
+        // #search-list(검색 기록을 보여주는 창)
+        // 안에 있는 div.searchN 클릭시 서버로 /post/history라는 url로 post요청 후 #search-result에 방영
+        #search-list
+            //- searchList라는  데이터를 가져와서 보여주기
+            //- paths테이블에서 column(id, start, goal)
+            each val, index in searchList
+                //- class에 서버로 부터 받은 변수로 이름짓기
+                div(class='search' + val.id)
+                    .column
+                        input(type="hidden", name="id" value=val.id)
+                        .start 
+                            h3 출발지
+                            div= val.start 
+                        .way 
+                            h3 경유지
+                            ul
+                                li 경기도 오산시 원동
+                                li 경기도 오산시 궐동 
+                        .goal
+                            h3 도착지
+                            div= val.goal
+
+        // #search-result(과거 경로 탐색 기록에서 안내 메시지를 서버로부터 가져와 보여주기)
+        //- detailpaths테이블에서 column(guide)를 가져와서 사용
+        #search-result
+
+    script(src="javascripts/history.js")

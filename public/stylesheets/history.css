@@ -1,0 +1,31 @@
+* { box-sizing: border-box; padding: 0; margin: 0; list-style-type: none;}
+#search-list {
+    display: block;
+    float: left;
+    width: 40vw;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+#search-list > div {
+    border-bottom: 4px solid #666;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+#search-list div .column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#search-list div .column > div {
+    text-align: center;
+    border: 1px solid #aaa;
+}
+
+#search-result {
+    width: 58vw;
+    height: 100vh;
+    overflow-y: auto;
+    float: left;
+    padding: 20px;
+}

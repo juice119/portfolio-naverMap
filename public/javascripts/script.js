@@ -12,18 +12,24 @@ document.getElementById('driving').addEventListener('submit', function (e) {
 
     let form = e.target;
     let wayData = "";
+    let wayName = "";
 
     for(let i = 1; i < wayNum; i++) {
         let way = "way" + i;
         let data = "";
         console.log("way" + i);
+        console.log(form[way].value);
+
         data = form[way + "_x"].value + "," + form[way + "_y"].value;
         console.log(data);
         if(i != 1 && i != wayNum) {
             wayData += ":";
+            wayName += ",";
         }
         wayData += data;
+        wayName += form[way].value;
     }
+    console.log(wayName);
     console.log(wayData);
 
     testData = form;
@@ -34,6 +40,7 @@ document.getElementById('driving').addEventListener('submit', function (e) {
             goal_name: form.goal.value,
             goal: form.goal_x.value + "," + form.goal_y.value,  
             option: form.option.value,
+            way_name: wayName,
             waypoints: wayData,
         };
         console.log(formData);
