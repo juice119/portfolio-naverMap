@@ -1,9 +1,6 @@
 let drivingSave;
-let searchTarget;
-
 
 drivingInputReset();
-
 //#driving안에 있는 input영역에 Enter 입력시 수행할 이벤트 연결
 function drivingInputReset() {
    document.querySelectorAll('#driving input[type=text]').forEach((e) => {
@@ -20,11 +17,23 @@ function drivingInputReset() {
 }
 
 //주소 검색후 마크 표시
-function searchAndMarker(data) {
-    let markerPs = new Array();
-    data.forEach((e) => { markerPs.push(new naver.maps.Point(e.x, e.y));});
-    console.log(markerPs);
-    addMarker(markerPs);
+function searchAndMarker(sp_dt, gc_dt) {
+    let gc_xy = new Array();
+    gc_dt.result.forEach(e => {
+        gc_xy.push([e.x, e.y]);
+    });
+    let sp_xy = new Array();
+    sp_dt.result.forEach(e => {
+        sp_xy.push([e.x, e.y]);
+    });
+    addImgMarker(gc_xy, sp_xy);
+
+    if(gc_xy.length > 0) {
+        setCenter(gc_xy[0][1], gc_xy[0][0]);
+    } else {
+        setCenter(sp_xy[0][1], sp_xy[0][0]);
+    }
+    
 }
 
 // 경로탐색 버튼 클릭시===============================================================
@@ -47,7 +56,7 @@ document.getElementById('driving').addEventListener('submit', function (e) {
         data = form[way + "_x"].value + "," + form[way + "_y"].value;
         console.log(data);
         if(i != 1 && i != wayNum) {
-            wayData += ":";
+            wayData += "|";
             wayName += ",";
         }
         wayData += data;
@@ -77,7 +86,7 @@ document.getElementById('driving').addEventListener('submit', function (e) {
                 console.log(myData);
                 drivingSave = myData;
                 drivingAddBlock(myData);
-                drawRoad(myData[0].path, myData[0].guide);
+                drawRoad(myData[0].path, myData[0].guide, myData[0].summary.waypoints);
             } else {
                 console.log(xhr.responseText);
             }
@@ -179,7 +188,9 @@ function searchFun(inputTarget) {
     daumAPI_searchPlaces(inputTarget, (sp_dt, gc_dt) => {
         console.log("=========daumAPI_searchPlaces데이터");
         console.log(sp_dt, gc_dt);
+        
         searchAddBlock(sp_dt, gc_dt, inputTarget);
+        searchAndMarker(sp_dt, gc_dt);
     });
 }
 function searchAddBlock(sp_dt, gc_dt, inputTarget) {
@@ -195,6 +206,7 @@ function searchAddBlock(sp_dt, gc_dt, inputTarget) {
     let sp_target = document.querySelector("#result_sp");
     clearChild(gc_target);
     clearChild(sp_target);
+    
 
     console.log(gc_target, sp_target);
     
@@ -219,13 +231,15 @@ function searchAddBlock(sp_dt, gc_dt, inputTarget) {
         console.log("Gecoder 데이터 block에 넣기");
         gc_dt.result.forEach((e, index) => {
             let block = document.createElement("block");
+            let building_name = e.road_address !== null ? e.road_address.building_name : "";
+            let road_address_name = e.road_address !== null ? e.road_address.address_name : "";
             block.className = "block";
             block.addEventListener("click", function(blockE)  {console.log("block 클릭"); blockClickEvent(this, inputTarget)});
             block.innerHTML = ` 
                     <h1>${index + 1}</h1>
-                    <h2 class="building_name name">${e.road_address.building_name}</h2>
-                    <h2 class="roadAdd">${e.road_address.address_name}</h2>
-                    <h2 class="jibunAdd">${e.address.address_name}</h2>
+                    <h2 class="building_name name">${building_name}</h2>
+                    <h2 class="roadAdd">${road_address_name}</h2>
+                    <h2 class="jibunAdd">${e.address_name}</h2>
                     <h2 class="x" style="display: none;">${e.x}</h2>
                     <h2 class="y" style="display: none;">${e.y}</h2>
                 `;
@@ -243,7 +257,7 @@ function blockClickEvent(my, inputTarget) {
     let x = my.querySelector(".x").textContent;
     let y = my.querySelector(".y").textContent;
     console.log(x, y);
-    // mapCenter(x, y);
+    setCenter(y, x);
 
     targetPar.querySelector("input[type=text]").value = name;
     targetPar.querySelector(".x").value = x;
