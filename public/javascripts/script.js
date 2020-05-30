@@ -1,5 +1,7 @@
 let drivingSave;
 let searchTarget;
+
+
 drivingInputReset();
 
 //#driving안에 있는 input영역에 Enter 입력시 수행할 이벤트 연결
@@ -163,7 +165,7 @@ function drivingBlockGen(data) {
             let x = xyData[0];
             let y = xyData[1];
             console.log(x, y);
-            mapCenter(x, y);
+            setCenter(y, x);
         });
         target.appendChild(block);
     });
