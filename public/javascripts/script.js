@@ -47,7 +47,7 @@ document.getElementById('driving').addEventListener('submit', function (e) {
         data = form[way + "_x"].value + "," + form[way + "_y"].value;
         console.log(data);
         if(i != 1 && i != wayNum) {
-            wayData += ":";
+            wayData += "|";
             wayName += ",";
         }
         wayData += data;
