@@ -6,7 +6,7 @@ var { Path } =require('../models');
 router.get('/',async function(req, res, next) {
     console.log("===== GET history =====");
     let searchList = new Array();
-    let sql_path = await Path.findAll({attributes: ['id', 'start', 'goal']});
+    let sql_path = await Path.findAll({attributes: ['id', 'start', 'goal', 'way']});
     sql_path.forEach( e => {
         searchList.push(e.toJSON());
     });
