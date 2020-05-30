@@ -1,9 +1,31 @@
 let drivingSave;
 let searchTarget;
-document.getElementById('driving').addEventListener('submit', function (e) {});
 drivingInputReset();
 
-// 길찾기 버튼 클릭시
+//#driving안에 있는 input영역에 Enter 입력시 수행할 이벤트 연결
+function drivingInputReset() {
+   document.querySelectorAll('#driving input[type=text]').forEach((e) => {
+       //검색 엔터 클릭시
+       console.log("add", e);
+       e.addEventListener("keypress" ,(e) => { 
+           if(e.keyCode == 13) {
+               e.preventDefault();
+               console.log(e.target.value);
+               searchFun(e.target);
+           }
+       });
+   });
+}
+
+//주소 검색후 마크 표시
+function searchAndMarker(data) {
+    let markerPs = new Array();
+    data.forEach((e) => { markerPs.push(new naver.maps.Point(e.x, e.y));});
+    console.log(markerPs);
+    addMarker(markerPs);
+}
+
+// 경로탐색 버튼 클릭시===============================================================
 document.getElementById('driving').addEventListener('submit', function (e) {
     console.log("================경로 버튼 클릭 이벤트");
     e.preventDefault();
@@ -69,109 +91,8 @@ document.getElementById('driving').addEventListener('submit', function (e) {
         alert("도착 지점을 정해주세요");
     }
  });
- //driving 초기화
-function drivingInputReset() {
-    //검색 엔터 클릭시
-    document.querySelectorAll('#driving input[type=text]').forEach((e) => {
-        console.log("add", e);
-        e.addEventListener("keypress" ,(e) => { 
-            if(e.keyCode == 13) {
-                e.preventDefault();
-                console.log(e.target.value);
-                getSearch(e.target);
-                
-            }
-        });
-    });
- }
 
- //서버에 post로 데이터 요청후 받기
- function getSearch(target) {
-    var searchData = target.value;
-    if(searchData !== "") {
-        document.querySelector(".search_info_hash").innerHTML = searchData;
-        let formData = {search: searchData};
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                let resData = JSON.parse(xhr.responseText);
-                console.log("===================getSearch");
-                console.log(resData);
-                searchAndMarker(resData)
-                searchAddBlock(resData, target);
-            } 
-        };
-        xhr.open('POST', '/post/search');
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.send(JSON.stringify(formData));
-    }else {
-        alert("주소를 입력하세요");
-    }
- }
-//검색 데이터로 UI 추가 시키기
-function searchAddBlock(data, target) {
-    document.querySelector(".search_result").classList.add('on');
-    document.querySelector(".driving_result").classList.remove('on');
-
-    document.querySelector(".search_info_cot").innerHTML = data.length;
-    var body = document.getElementById("search_result");
-    // 안에 있는 요소 전부 제거 하기
-    while(body.hasChildNodes()) {
-        body.removeChild(body.firstChild);
-    }
-
-    data.forEach((e, index) => {
-        var block = document.createElement('div');
-        block.className= "block";
-        var h1 = document.createElement('h1');
-        h1.textContent = index + 1;
-        block.appendChild(h1);
-        var h2 = document.createElement('h2');
-        h2.className = "roadAdd";
-        h2.textContent = e.roadAddress;
-        block.appendChild(h2);
-        var h2 = document.createElement('h2');
-        h2.className = "jibunAdd";
-        h2.textContent =  e.jibunAddress;
-        block.appendChild(h2);
-        var p = document.createElement('h2');
-        p.className = "x";
-        p.textContent = e.x;
-        p.style = "display:none;";
-        block.appendChild(p);
-        var p = document.createElement('h2');
-        p.className = "y";
-        p.textContent = e.y;
-        p.style = "display:none;";
-        block.appendChild(p);
-        block.addEventListener("click", function(e)  {console.log("block 클릭"); blockClickEvent(this, target)})
-        body.appendChild(block);
-    });
-}
-function blockClickEvent(my, target) {
-    let targetPar = target.parentNode;
-    console.log(targetPar, target);
-    console.log(my);
-    let roadAdd = my.querySelector(".roadAdd").textContent;
-    let x = my.querySelector(".x").textContent;
-    let y = my.querySelector(".y").textContent;
-    console.log(x, y);
-    mapCenter(x, y);
-
-    targetPar.querySelector("input[type=text]").value = roadAdd;
-    targetPar.querySelector(".x").value = x;
-    targetPar.querySelector(".y").value = y;
-}
-
-
-//주소 검색후 마크 표시
-function searchAndMarker(data) {
-    let markerPs = new Array();
-    data.forEach((e) => { markerPs.push(new naver.maps.Point(e.x, e.y));});
-    console.log(markerPs);
-    addMarker(markerPs);
-}
-//길찾기 후 받은 데이터로 UI 추가 시키기
+ //길찾기 후 받은 데이터로 UI 추가 시키기
 function drivingAddBlock(drivingData) {
     console.log("==========drivingAddBlock start");
     document.querySelector(".search_result").classList.remove('on');
@@ -249,7 +170,85 @@ function drivingBlockGen(data) {
 
 }
 
-//경유지 추가 버튼
+//출발지, 도착지, 경유지에서 Enter 클릭후 검색할때======================================
+//drivingInputReset으로 경유지를 추가할때와 처음시작시에 실행되는 함수에서 이벤트가 적용된다.
+function searchFun(inputTarget) {
+    document.querySelectorAll(".search_info_hash").forEach(qs => {qs.innerHTML = inputTarget.value;});
+    daumAPI_searchPlaces(inputTarget, (sp_dt, gc_dt) => {
+        console.log("=========daumAPI_searchPlaces데이터");
+        console.log(sp_dt, gc_dt);
+        searchAddBlock(sp_dt, gc_dt, inputTarget);
+    });
+}
+function searchAddBlock(sp_dt, gc_dt, inputTarget) {
+    //주소 검색 결과 레이아웃 ON 시키고 / 길찾기 검색 결과 레이아웃 OFF 시키기 
+    document.querySelector(".search_result").classList.add('on');
+    document.querySelector(".driving_result").classList.remove('on');
+
+    //검색 갯수 넣기
+    document.querySelector(".search_gc .search_info_cot").innerHTML = gc_dt.result.length;
+    document.querySelector(".search_sp .search_info_cot").innerHTML = sp_dt.result.length;
+
+    let gc_target = document.querySelector("#result_gc");
+    let sp_target = document.querySelector("#result_sp");
+    clearChild(gc_target);
+    clearChild(sp_target);
+
+    console.log(gc_target, sp_target);
+    
+    if(sp_dt.status === "OK") {
+        console.log("SearchPlace 데이터 block에 넣기");
+        sp_dt.result.forEach((e, index) => {
+            let block = document.createElement("block");
+            block.className = "block";
+            block.addEventListener("click", function(blockE)  {console.log("block 클릭"); blockClickEvent(this, inputTarget)});
+            block.innerHTML = ` 
+                    <h1>${index + 1}</h1>
+                    <h2 class="place_name name">${e.place_name}<h2>
+                    <h2 class="roadAdd">${e.road_address_name}</h2>
+                    <h2 class="jibunAdd">${e.address_name}</h2>
+                    <h2 class="x" style="display: none;">${e.x}</h2>
+                    <h2 class="y" style="display: none;">${e.y}</h2>
+                `;
+            sp_target.append(block);
+        });
+    }
+    if(gc_dt.status === "OK") {
+        console.log("Gecoder 데이터 block에 넣기");
+        gc_dt.result.forEach((e, index) => {
+            let block = document.createElement("block");
+            block.className = "block";
+            block.addEventListener("click", function(blockE)  {console.log("block 클릭"); blockClickEvent(this, inputTarget)});
+            block.innerHTML = ` 
+                    <h1>${index + 1}</h1>
+                    <h2 class="building_name name">${e.road_address.building_name}</h2>
+                    <h2 class="roadAdd">${e.road_address.address_name}</h2>
+                    <h2 class="jibunAdd">${e.address.address_name}</h2>
+                    <h2 class="x" style="display: none;">${e.x}</h2>
+                    <h2 class="y" style="display: none;">${e.y}</h2>
+                `;
+            gc_target.appendChild(block);
+        });
+    }
+}
+//.block 클릭 이벤트
+// my 는 버튼 클릭시 이벤트{무슨 버튼을 클릭했는지 식별 및 해당 블럭에 데이터를 가져올때 사용}
+// inputTarget 검색한 input 영역 값이며 searchFun -> SearchAddBlock으로 가져온다
+function blockClickEvent(my, inputTarget) {
+    let targetPar = inputTarget.parentNode;
+
+    let name = my.querySelector(".name").textContent;
+    let x = my.querySelector(".x").textContent;
+    let y = my.querySelector(".y").textContent;
+    console.log(x, y);
+    // mapCenter(x, y);
+
+    targetPar.querySelector("input[type=text]").value = name;
+    targetPar.querySelector(".x").value = x;
+    targetPar.querySelector(".y").value = y;
+}
+
+//경유지 추가 버튼 클릭시=================================================================================================
 document.querySelector(".btn_waypoints").addEventListener("click", (e) => {
     let maxWayPoints = 10;
     var driving = document.querySelector(".driving");
@@ -270,7 +269,6 @@ document.querySelector(".btn_waypoints").addEventListener("click", (e) => {
             console.log(driving.offsetHeight);
         }
     } 
-    
 });
 //waypoints에 div 블럭 생성기
 function waypointsAddBlock(num, target) {
@@ -319,14 +317,8 @@ document.querySelectorAll('#btn_remove').forEach((e) => {
     e.addEventListener('click', (e) => {console.log(e.target.parentNode); });
 });
 
-document.getElementById('driving').addEventListener('submit', function (e) {
-    console.log("submit");
-});
 
-
-
-
-
+//메뉴바 열고 닫기
 document.querySelector(".btn_menubar").addEventListener("click", (e) => {btnMenubar()});
 function btnMenubar() {
     console.log("=============btnMenubar");
@@ -352,5 +344,12 @@ function btnMenubar() {
         menu.style ="display: none;";
         btn.style="left: 0px;";
         map.style= "width: 100vw;";
+    }
+}
+//자식 노드 전부 제거 하기
+function clearChild(target) {
+    //자식 요소 전부 제거
+    while(target.hasChildNodes()) {
+        target.removeChild(target.firstChild);
     }
 }

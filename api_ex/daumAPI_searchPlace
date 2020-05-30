@@ -1,0 +1,105 @@
+// daumAPI daumAPI_searchPlaces(target) 함수 응답 결과
+let result = ps.keywordSearch( keyword, (data, status, pagination)=> {
+        console.log("=====data====");
+        console.log(data);
+        console.log("=====status====");
+        console.log(status);
+        console.log("=====pagination====");
+        console.log(pagination);
+});
+//!!!응답========================================================
+=====data====
+0:
+    {
+        address_name: "서울 마포구 용강동 19-2"
+        category_group_code: "FD6"
+        category_group_name: "음식점"
+        category_name: "음식점 > 술집 > 와인바"
+        distance: ""
+        id: "1041019528"
+        phone: "02-702-7462"
+        place_name: "도"
+        place_url: "http://place.map.kakao.com/1041019528"
+        road_address_name: "서울 마포구 큰우물로4길 5"
+        x: "126.944722688083"
+        y: "37.5417240095377"
+    }
+1: 
+    {
+        address_name: "서울 양천구 목동 905-22"
+        category_group_code: "FD6"
+        category_group_name: "음식점"
+        category_name: "음식점 > 한식 > 해물,생선"
+        distance: ""
+        id: "8893154"
+        phone: ""
+        place_name: "도"
+        place_url: "http://place.map.kakao.com/8893154"
+        road_address_name: "서울 양천구 목동동로 339"
+        x: "126.876806560974"
+        y: "37.5319058476285"
+        __proto__: Object
+    }
+...
+=====status====
+OK
+=====pagination====
+current: 1
+first: 1
+gotoFirst: ƒ ()
+gotoLast: ƒ ()
+gotoPage: ƒ (a)
+hasNextPage: true
+hasPrevPage: false
+last: 3
+nextPage: ƒ ()
+perPage: 15
+prevPage: ƒ ()
+totalCount: 45
+__proto__: Object
+
+
+
+geocoder.addressSearch(keyword, function(result, status, pagination) {
+        console.log("=====data====");
+        console.log(result);
+        console.log("=====status====");
+        console.log(status);
+        console.log("=====pagination====");
+        console.log(pagination);
+    });
+//!!!응답========================================================
+=====data====
+0:
+address_name: "경기 오산시 운암로 64"
+address_type: "ROAD_ADDR"
+x: "127.078435370857"
+y: "37.1524590513676"
+
+address:
+    address_name: "경기 오산시 오산동 923-2"
+    b_code: "4137010100"
+    h_code: "4137051000"
+    main_address_no: "923"
+    mountain_yn: "N"
+    region_1depth_name: "경기"
+    region_2depth_name: "오산시"
+    region_3depth_h_name: "중앙동"
+    region_3depth_name: "오산동"
+    sub_address_no: "2"
+    x: "127.078435370857"
+    y: "37.1524590513676"
+    
+road_address:
+    address_name: "경기 오산시 운암로 64"
+    building_name: "운암 대동 황토방 아파트"
+    main_building_no: "64"
+    region_1depth_name: "경기"
+    region_2depth_name: "오산시"
+    region_3depth_name: "오산동"
+    road_name: "운암로"
+    sub_building_no: ""
+    underground_yn: "N"
+    x: "127.078435370857"
+    y: "37.1524590513676"
+    zone_no: "18132"

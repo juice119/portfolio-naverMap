@@ -198,18 +198,27 @@ em {
 }
 .info {
     width: 100%;
-    height: 90px;
+    height: 110px;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
     padding: 20px;
     color: #666;
 }
+
 .result > div { display: none;}
 .result > div.on {
     display: block;
 }
 
 /* search_result */
+#search_result {
+    background-color: #fff;
+}
+/* search_info */
+.search_info h2 {
+    color: #000;
+    margin-bottom: 10px;
+}
 .search_info p {
     text-align: right;
 }
@@ -217,47 +226,38 @@ em {
     color: #333;
     margin-right: 6px;
 }
-#search_result {
-    background-color: #fff;
+
+/* search_result > .search_block*/
+.search_block:first-child { padding-bottom: 20px; }
+.search_gc {background-color: darkorange;}
+.search_sp {background-color: cornflowerblue;}
+/* search_result > .search_block > .post_result */
+.post_result {
+    display: flex;
+    flex-direction: column;
 }
-#search_result .block{
+.post_result .block{
     position: relative;
     width: 100%;
     height: 90px;
     padding: 20px;
     background-color: #e0e0e0;
 }
-#search_result .block h1 {
+.post_result .block h1 {
     position: absolute;
     top: 6px;
     left: 14px;
 } 
-#search_result .block h2 {
+.post_result .block h2 {
     font-size: 0.8rem;
     padding-left: 30px;
 }
-#search_result .block div {
+.post_result .block div {
     position: absolute;
     right: 12px;
     bottom: 4px;
 }
-#search_result .block div input[type=button] {
-    background-color: #fff;
-    padding: 4px;
-    border: none;
-    box-shadow: none;
-    border-radius: 4px;
-    font-weight: bold;
-}
-#search_result .block div > input[type=button]:first-child {margin-right: 2px;}
-#search_result .block div > input[type=button]:first-child:hover {
-    background-color: #e64a19;
-    color: #fff;
-}
-#search_result .block div > input[type=button]:last-child:hover {
-    background-color: #2962ff;
-    color: #fff;
-}
+
 /* driving_result */
 .driving_info .time, .driving_info .distance {display: inline-block; color: #000;}
 .driving_info .distance {color: #777;}
@@ -295,3 +295,4 @@ em {
     color: #fff;
     border-radius: 0 0 10px 10px;
 }
+
