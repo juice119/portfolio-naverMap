@@ -1,0 +1,43 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, height=device-height  ,initial-scale=1.0')
+    title goboX 회원가입
+    link(rel='stylesheet', href='stylesheets/join.css')
+  body
+    .container
+      .content
+        .tit
+          .tit-logo
+            a.logo-gobox.ir_pm(href='/' value="goboXlogo") 
+          h3.tit-text 회원가입
+        .area
+          .tit-area
+            h2 안녕하세요. goboX 입니다.
+            p 회원정보를 입력해주세요
+          .text-area
+            form(action='/')
+              ul
+                li.cell
+                  .text-label
+                    label(for='name') 아이디
+                  .text-input
+                    input#name(type='text', name='name', maxlength='10', placeholder='영문,숫자 조합(4~10자)')
+                li.cell
+                  .text-label
+                    label(for='name') 비밀번호
+                  .text-input
+                    input#name(type='password', name='name', maxlength='12', placeholder='영문,숫자 조합(4~12자)')
+                li.cell
+                  .text-label
+                    label(for='name') 비밀번호 확인
+                  .text-input
+                    input#name(type='password', name='name', maxlength='12', placeholder='영문,숫자 조합(4~12자)')
+                li.cell
+                  .text-label
+                    label(for='name') 닉네임
+                  .text-input
+                    input#name(type='text', name='name', placeholder='닉네임을 입력해 주세요')
+          .btn-submit
+            a.submit.radius8(href='') 회원가입

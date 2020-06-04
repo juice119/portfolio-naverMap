@@ -10,7 +10,6 @@ router.get('/',async function(req, res, next) {
     sql_path.forEach( e => {
         searchList.push(e.toJSON());
     });
-    console.log(searchList);
   res.render('history', {"searchList": searchList});
 });
 

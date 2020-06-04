@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => (
       guide: {
         type: DataTypes.TEXT,
         allowNull: false,
-      },
+      }
     }, {
       timestamps: true,
       paranoid: true,
@@ -11,4 +11,3 @@ module.exports = (sequelize, DataTypes) => (
       collate:'utf8_general_ci',
     })
   );
-  

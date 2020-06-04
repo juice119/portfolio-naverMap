@@ -1,0 +1,27 @@
+section#layer_login.modal-layer.on
+  .wrap
+    .layer-header
+      h3.tit 로그인
+    .layer-con
+      .tab-cont-wrap
+        .col-wrap
+          .col.left
+            .login-input-area
+              input#ibxLoginId.input-text.strTrim(autocomplete='off', maxlength='20', type='text', placeholder='아이디', title='아이디를 입력하세요')
+              input#ibxLoginPwd.input-text.mt15(autocomplete='off', maxlength='20', type='password', placeholder='비밀번호', title='비밀번호를 입력하세요')
+              .chk-util
+                .left
+                  input#chkIdSave(type='checkbox')
+                  label(for='chkIdSave')
+                    | 아이디 저장
+                    // 아이디 저장
+                .right
+                    .link
+                        a(href='/user-find', title='ID/PW 찾기 선택') ID/PW 찾기
+                        // ID/PW 찾기
+                        a(href='/join', title='회원가입 선택') 회원가입
+                        // 회원가입
+                        // /tab-cont-wrap
+              button#btnLogin.button.purple.large.btn-login(type='button', disabled='disabled') 로그인
+
+    button.btn-modal-close(type='button' onclick="showLogin();") X

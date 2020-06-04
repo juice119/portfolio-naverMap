@@ -4,14 +4,26 @@ module.exports = (sequelize, DataTypes) => (
         type: DataTypes.STRING(40),
         allowNull: false,
       },
+      start_ps: {
+        type: DataTypes.STRING(40),
+        allowNull: false,
+      },
       goal: {
+        type: DataTypes.STRING(40),
+        allowNull: false,
+      },
+      goal_ps: {
         type: DataTypes.STRING(40),
         allowNull: false,
       },
       way: {
         type: DataTypes.TEXT,
-        allowNull: true,
+        allowNull: true,  
       },
+      way_ps: {
+        type: DataTypes.STRING(40),
+        allowNull: false,
+      }
     }, {
       timestamps: true,
       paranoid: true,

@@ -333,7 +333,16 @@ document.querySelectorAll('#btn_remove').forEach((e) => {
     e.addEventListener('click', (e) => {console.log(e.target.parentNode); });
 });
 
-
+//login창 보여주기
+function showLogin() {
+    let login = document.querySelector("#layer_login");
+    console.log(login.style.display);
+    if(login.style.display) {
+        login.style='';
+    }else {
+        login.style='display:block;';
+    }
+}
 //메뉴바 열고 닫기
 document.querySelector(".btn_menubar").addEventListener("click", (e) => {btnMenubar()});
 function btnMenubar() {

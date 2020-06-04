@@ -53,8 +53,11 @@ router.post('/driving', function(req, res, next) {
 
     const Paths = await Path.create({
       start: req.body.start_name,
+      start_ps: req.body.start,
       goal: req.body.goal_name,
+      goal_ps: req.body.goal,
       way: req.body.way_name,
+      way_ps: req.body.waypoints,
     });
     console.log(Paths.id);
     const sql_detailPath = await DetailPath.create({

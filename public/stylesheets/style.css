@@ -287,12 +287,16 @@ em {
     position: fixed;
     right: 0;
     top: 0;
-    width: 68px;
+    width: auto;
     height: 40px;
     text-align: center;
     padding: 8px 4px;
     background: #e65100;
     color: #fff;
     border-radius: 0 0 10px 10px;
+}
+#history a {
+    display: inline-block;
+    padding: 0 10px;
 }
 

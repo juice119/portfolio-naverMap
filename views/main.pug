@@ -5,6 +5,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, height=device-height, initial-scale=1.0')
     title goboX For MAP
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/login.css')
   body
     #map
     a.btn_menubar="<"
@@ -81,6 +82,8 @@ html(lang='en')
       // ./result
     #history
       a(href="./history") 검색기록
+      a.login(href="#" onclick="showLogin();") login
+    include login
 
     script(src='./javascripts/script.js')
     script(src="//dapi.kakao.com/v2/maps/sdk.js?appkey=29990cd8562f3b509dcd2c4811bd9e6e&libraries=services")
