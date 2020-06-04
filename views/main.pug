@@ -81,8 +81,15 @@ html(lang='en')
           #driving_result
       // ./result
     #history
-      a(href="./history") 검색기록
-      a.login(href="#" onclick="showLogin();") login
+      if user
+        a(href="./history") 검색기록
+        a(href="./auth/logout") 로그아웃
+        if user.nick
+          div(style="display:inline-block;")=user.nickname + "님 어서오세요"
+        else
+          div(style="display:inline-block;")=user.userId + "님 어서오세요"
+      else
+        a.login(href="#" onclick="showLogin();") login
     include login
 
     script(src='./javascripts/script.js')
