@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var naverAPI = require('../my_modules/naverAPI');
 var { Path, DetailPath } = require('../models');
-
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 
 /* search */
@@ -50,15 +50,21 @@ router.post('/driving', function(req, res, next) {
       guide_db += e.instructions;
       guide_db += index < guide.length -1 ? "," : ""; 
     });
-
-    const Paths = await Path.create({
+    let db_dt = {      
       start: req.body.start_name,
       start_ps: req.body.start,
       goal: req.body.goal_name,
       goal_ps: req.body.goal,
       way: req.body.way_name,
       way_ps: req.body.waypoints,
-    });
+    };
+    if(req.user) {
+      // db_dt.push({userId: req.user.id});
+      db_dt["userId"] =  req.user.id;
+    }
+    console.log(db_dt);
+    const Paths = await Path.create(db_dt);
+
     console.log(Paths.id);
     const sql_detailPath = await DetailPath.create({
       guide: guide_db,
@@ -72,14 +78,14 @@ router.post('/driving', function(req, res, next) {
 
 /* history */
 // post로 id라는 key값에 value로 paths(id), detailpaths(pathId)를 INNER JOIN하여 검색 결과를 JSON형식으로 반환해준다. 
-router.post('/history',async function(req, res, next) {
+router.post('/history', isLoggedIn, async function(req, res, next) {
   let myId = req.body.id;
   //SELECT ...
   // FROM `paths` AS `path` 
   // INNER JOIN detailpaths` AS `detailpath` ON `path`.`id` = `detailpath`.`pathId` AND `detailpath`.`id` = '포스트로 받은 데이터'
   //async를 적용시켜 sequelize에 find기능 사용시 비동기함수를 동기화 시켜준다.
   let sql_result = await Path.findOne({ 
-    attributes: ["id", "start", "goal", "way"],
+    attributes: ["id", "start", "goal", "way", "userId"],
     include: [
       {
         model: DetailPath,
@@ -87,7 +93,12 @@ router.post('/history',async function(req, res, next) {
         where: {id: myId }, 
       }],
   });
-  res.status(200).json(sql_result.toJSON());
+
+  if(sql_result.userId === req.user.id || req.user.userId === "admin") {
+    res.status(200).json(sql_result.toJSON());
+  } else {
+    res.status(404).send("잘못된 접근입니다.");
+  }
 });
 
 module.exports = router;

@@ -14,7 +14,6 @@ const passportConfig = require('./passport');
 
 var mainRouter = require('./routes/main');
 var postRouter = require('./routes/post');
-var historyRouter = require('./routes/history');
 var authRouter = require('./routes/auth');
 var app = express();
 
@@ -47,7 +46,6 @@ app.use(passport.session());
 
 //router
 app.use('/', mainRouter);
-app.use('/history', historyRouter);
 app.use('/post', postRouter);
 app.use('/auth', authRouter);
 

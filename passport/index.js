@@ -16,7 +16,7 @@ module.exports = (passport) => {
         User.findOne({
             where: { userId: id },
         })
-            .then(user => { done(null, { userId: user.userId, nick: user.nick})})
+            .then(user => { done(null, { id: user.id, userId: user.userId, nick: user.nick })})
             .catch(error => { done(error)});
     });
     local(passport);
