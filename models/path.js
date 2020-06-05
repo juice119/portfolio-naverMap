@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => (
         allowNull: true,  
       },
       way_ps: {
-        type: DataTypes.STRING(40),
+        type: DataTypes.TEXT,
         allowNull: false,
       }
     }, {

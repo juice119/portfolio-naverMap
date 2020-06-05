@@ -87,7 +87,7 @@ body {
 .notice-check label {font-weight: 600; margin-right: 20px; margin-left: 2px;}
 .notice-check .input1 {margin-bottom: 30px;}
 
-.btn-submit {padding-bottom: 80px;}
+.btn-submit {padding-top: 40px;}
 .btn-submit .submit {
     display: block;
     color: #777777;

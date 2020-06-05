@@ -30,6 +30,7 @@ app.use(favicon(__dirname + '/public/images/favicon.ico'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 app.use(session({
   resave: false,
@@ -41,6 +42,7 @@ app.use(session({
   }
 }));
 app.use(flash());
+//passport 미들웨어 등록
 app.use(passport.initialize());
 app.use(passport.session());
 

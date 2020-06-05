@@ -6,11 +6,13 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   console.log(req.user);
-  res.render('main', {user: req.user});
+  res.render('main', {user: req.user, loginError: loginError});
 });
+
 router.get('/join', isNotLoggedIn, (req, res, next) =>{
   res.render('join');
 });
+
 router.get('/history', isLoggedIn, async function(req, res, next) {
   console.log("===== GET history =====");
   let searchList = new Array();
@@ -22,9 +24,11 @@ router.get('/history', isLoggedIn, async function(req, res, next) {
     },
     attributes: ['id', 'start', 'goal', 'way'], 
   };
+
   if(req.user.userId === 'admin') {
     sql_option = {attributes: ['id', 'start', 'goal', 'way']};
   }
+  
   let sql_path = await Path.findAll(sql_option);
 
   sql_path.forEach( e => {
