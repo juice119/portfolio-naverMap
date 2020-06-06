@@ -83,7 +83,11 @@ router.post('/driving', function(req, res, next) {
       pathId: Paths.id,
     });
     res.status(200).json(data);
-  }).catch (err => {console.log(err);});
+  }).catch (err => {
+    console.log(err); 
+    req.flash('drivingErr',err);
+    res.status(404).send(err);
+  });
 });
 
 
