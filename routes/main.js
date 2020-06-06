@@ -6,7 +6,7 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   console.log(req.user);
-  res.render('main', {user: req.user, loginError: loginError});
+  res.render('main', {user: req.user, loginError: req.flash('loginError')});
 });
 
 router.get('/join', isNotLoggedIn, (req, res, next) =>{
