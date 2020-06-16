@@ -7,7 +7,8 @@ module.exports = {
         "database": "map",
         "host": "127.0.0.1",
         "dialect": "mysql",
-        "operatorsAliases": false
+        "operatorsAliases": false,
+        "logging": false,
     },
     "production": {
         "username": "tester",
@@ -16,6 +17,5 @@ module.exports = {
         "host": "127.0.0.1",
         "dialect": "mysql",
         "operatorsAliases": false,
-        "logging": false,
     },
 }

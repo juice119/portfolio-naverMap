@@ -47,10 +47,14 @@ module.exports =  {
             let data = JSON.parse(body);
             console.log("query :", qs);
             console.log(data);
+            if(data.code > 0) {
+                rej(data.message);
+            }
             if(mode == 0) { res(data.addresses); }
             else if(mode == 1 || mode == 2) {res(data.route); }
         }).catch(err => {
-            console.log(err)
+            console.log(err);
+            rej(err);
         });
     }),
     //query 형태 반환 데이터 타입 반환
