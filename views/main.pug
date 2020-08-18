@@ -17,6 +17,8 @@ html(lang='en')
           strong MAP
       // /.search
       .driving
+        if drivingErr
+          .div= drivingErr
         form#driving(action='/post/driving' method='post' enctype='multipart/form-data' )
           .start
             label(for='start') 출발지

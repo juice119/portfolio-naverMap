@@ -89,6 +89,7 @@ document.getElementById('driving').addEventListener('submit', function (e) {
                 drawRoad(myData[0].path, myData[0].guide, myData[0].summary.waypoints);
             } else {
                 console.log(xhr.responseText);
+                window.location.replace("http://www.yeolju.com/");
             }
         };
         xhr.open('POST', '/post/driving');
