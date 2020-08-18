@@ -3,7 +3,7 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, height=device-height, initial-scale=1.0')
-    title goboX For MAP
+    title 어디로 가야하오!
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/login.css')
   body
@@ -11,10 +11,9 @@ html(lang='en')
     a.btn_menubar="<"
     .menu
       .logo
-        i.icon.icon-mapBox.ir_pm goBox아이콘
+        i.icon.icon-mapBox.ir_pm 아이콘
         h1.tit
-          | goboX 
-          strong MAP
+          strong 어디로 가야하오! 
       // /.search
       .driving
         if drivingErr
@@ -91,7 +90,7 @@ html(lang='en')
         else
           div(style="display:inline-block;")=user.userId + "님 어서오세요"
       else
-        a.login(href="#" onclick="showLogin();") login
+        a.login(onclick="showLogin();") 로그인
     include login
 
     script(src='./javascripts/script.js')

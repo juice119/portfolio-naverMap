@@ -294,6 +294,7 @@ em {
     background: #e65100;
     color: #fff;
     border-radius: 0 0 10px 0;
+    cursor: pointer;
 }
 #history a {
     display: inline-block;

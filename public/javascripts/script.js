@@ -1,7 +1,16 @@
 let drivingSave;
 
 drivingInputReset();
+historyButtonPositionReset();
 //#driving안에 있는 input영역에 Enter 입력시 수행할 이벤트 연결
+function historyButtonPositionReset() {
+    var historyButton = document.querySelector("#history");
+    var menuBar = document.querySelector(".menu");
+    console.log(menuBar);
+    console.log(historyButton.style);
+    historyButton.style.left = menuBar.offsetWidth + "px" ;
+}
+
 function drivingInputReset() {
    document.querySelectorAll('#driving input[type=text]').forEach((e) => {
        //검색 엔터 클릭시
@@ -62,9 +71,7 @@ document.getElementById('driving').addEventListener('submit', function (e) {
         wayData += data;
         wayName += form[way].value;
     }
-    console.log(wayName);
-    console.log(wayData);
-
+    
     testData = form;
     if(form.start.value !== "" && form.goal.value !== "") {
         let formData = {
@@ -89,7 +96,7 @@ document.getElementById('driving').addEventListener('submit', function (e) {
                 drawRoad(myData[0].path, myData[0].guide, myData[0].summary.waypoints);
             } else {
                 console.log(xhr.responseText);
-                window.location.replace("http://www.yeolju.com/");
+                window.location.replace("https://www.yeolju.com/");
             }
         };
         xhr.open('POST', '/post/driving');

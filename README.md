@@ -1,11 +1,12 @@
-naverAPI, KAKAO지도API를 사용한 드라이빙 네비 서비스
-=============
+# naverAPI, KAKAO지도API를 사용한 드라이빙 네비 서비스
+[https://www.yeolju.com](https://www.yeolju.com)
+
+
  이 프로그램은 출발지, 경유지, 도착지를 장소 및 주소로 검색하여 선택을 한 후에 빠른길, 편한길, 최적, 무료우선의 옵션을 선택한 후에 경로탐색을
  클릭시 자동타로 이동할수 있는 네비를 제작하여 보여준다. 추가적으로 검색 기록을 알고 싶은 경우 admin계정은 모든 검색 기록을 볼 수 있으며 admin이
  아닌 사용자는 자신이 로그인하여 검색한 기록만을 볼수가 있다.
  
-사용법
--------
+## 사용법
  1.출발지, 경유지, 도착지에 텍스트창을 클릭하여 주소 및 장소에 이름으로 검색을 한 후에 아래 검색결과를 클릭하여 선택을 한다. 
  이 과정을 출발지, 경유지, 도착지에 맞추어 반복한다.             
  
@@ -23,15 +24,25 @@ naverAPI, KAKAO지도API를 사용한 드라이빙 네비 서비스
       ID      :admin              
       password:admin            
 
-사용된 엔진, 개발도구, OS
------
+## 개발환경 및 주요 라이브러리
+### 개발환경
+```
 nodeJS: 12.18.0             
 npm: 6.14.4             
 mysql: Ver 14.14 Distrib 5.7.30, for Linux (x86_64)             
-Ubuntu:18.04.4              
+Ubuntu:18.04.4
 
-사용된 API
--------------
+https - letsencrypt
+cloudServer - AWS EC2
+```
+### 주요 라이브러리
+```
+passport, passport-local
+sequelize
+bcrypt
+```
+
+## 사용된 API
 >naverAPI
 > >1.Directions5  https://apidocs.ncloud.com/ko/ai-naver/maps_directions            
 > >2.Directions15 https://apidocs.ncloud.com/ko/ai-naver/maps_directions_15       
@@ -41,8 +52,7 @@ Ubuntu:18.04.4
 
 
 
-사용된 module 및 version
--------------
+## 사용된 module 및 version
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
     "sequelize": "^5.21.11",
@@ -80,25 +90,22 @@ Ubuntu:18.04.4
    
     
   
-  sequelize를 통한 table관계 및 table 사용 용도 설명
+  # sequelize를 통한 table관계 및 table 사용 용도 설명
   --------------------------
   table은 user, path, detailpath 총 3개가 있으며 
         1.user은 사용자의 id, password, nick을 저장하기 위해 사용된다.
         2.path는 검색기록을 저장하기 위한 테이블이며 출발지, 경유지, 도착지, 출발지'도착지'경유지에 위도경도에 데이터를 저장한다.
         3.detailPath는 path를 통해 검색한 기록에 안내메시지를 저장하는 테이블이며 추가적인 컬럼 추가시 이 테이블을 사용한다.
         
-  table간의 관계
-  -----------------
- user(1) : path(N)
- ----
+## table간의 관계
+ ### user(1) : path(N)
     ./models/index.js
     <pre><code>db.User.hasMany(db.Path);
     db.Path.belongsTo(db.User);</code></pre> 
     
     user테이블과 path테이블은 서로 1:N관계에 테이블로 사용자에 검색기록을 가져오기 위해 forignkey를 path에 userId로 추가시켜 생성한다.
     
- Path(1) : DetailPath(1)
- ----
+ ### Path(1) : DetailPath(1)
     ./models/index.js
     <pre><code>db.Path.hasOne(db.DetailPath);
     db.DetailPath.belongsTo(db.Path);</code></pre> 
